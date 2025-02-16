@@ -7,20 +7,27 @@ def main():
                     prog='Lox',
                     description='Usage: jlox [script]',
                     )
-    parser.add_argument('-f', '--filename', required=False) 
+    parser.add_argument('-f', '--filepath', required=False) 
     args = parser.parse_args()
-    if args.filename:
-        print(args.filename)
-        runFile()
+    if args.filepath:
+        runFile(args.filepath)
     else:
         runPrompt()
 
-def runFile():
-    pass
+def runFile(filepath: str): 
+    f = open(filepath)
+    code = f.read()
+    run(code)
 
 
 def runPrompt():
-    pass
+    while True:
+        print("> ")
+        line = input()
+        run(line)
+
+def run(code:str):
+    print(code)
 
 
 if __name__ == "__main__":
