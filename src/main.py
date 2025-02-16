@@ -2,8 +2,7 @@ import argparse
 from lox import Lox
 
 def main():
-    # if there is an arg read from filename
-    # else open interpreter
+
     parser = argparse.ArgumentParser(
                     prog='Lox',
                     description='Usage: jlox [script]',
