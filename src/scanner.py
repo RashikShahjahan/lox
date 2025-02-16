@@ -6,6 +6,24 @@ class Scanner:
         self.start = 0
         self.curr = 0
         self.line = 1
+        self.keywords = {
+            "and": 'AND',
+            "class": 'CLASS',
+            "else": 'ELSE',
+            "false": 'FALSE',
+            "for": 'FOR',
+            "fun": 'FUN',
+            "if": 'IF',
+            "nil": 'NIL',
+            "or": 'OR',
+            "print": 'PRINT',
+            "return": 'RETURN',
+            "super": 'SUPER',
+            "this": 'THIS',
+            "true": 'TRUE',
+            "var": 'VAR',
+            "while": 'WHILE',
+        }
 
     def scanTokens(self) -> list[Token]:
         while not self.isAtEnd():
@@ -41,12 +59,12 @@ class Scanner:
             pass
         elif c == '\n':
             self.line+=1
-
         elif c == '"':
             self.string()
         elif c.isdigit():
             self.number()
-
+        elif c.isalpha():
+            self.identifier()
         else: print(self.line, "Unexpected character.")
 
     def string(self):
@@ -73,6 +91,12 @@ class Scanner:
 
         self.addToken('NUMBER',float(self.code[self.start:self.curr]))
 
+    def identifier(self):
+        while self.peek().isalnum():self.advance()
+        text = self.code[self.start:self.curr]
+        type = self.keywords.get(text,'IDENTIFIER')
+        self.addToken(type)
+
 
     def isAtEnd(self)->bool:
         return self.curr >= len(self.code)
@@ -95,11 +119,11 @@ class Scanner:
         self.curr+=1
         return True
 
-    def peek(self):
+    def peek(self)->str:
         if (self.isAtEnd()): return '\0'
         return self.code[self.curr]
     
-    def peekNext(self):
+    def peekNext(self)->str:
         if self.curr+1 >= len(self.code):
             return '\0'
         return self.code[self.curr+1]
