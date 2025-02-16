@@ -1,4 +1,5 @@
 import argparse
+from lox import Lox
 
 def main():
     # if there is an arg read from filename
@@ -9,26 +10,11 @@ def main():
                     )
     parser.add_argument('-f', '--filepath', required=False) 
     args = parser.parse_args()
+    l = Lox()
     if args.filepath:
-        runFile(args.filepath)
+        l.runFile(args.filepath)
     else:
-        runPrompt()
-
-def runFile(filepath: str): 
-    f = open(filepath)
-    code = f.read()
-    run(code)
-
-
-def runPrompt():
-    while True:
-        print("> ")
-        line = input()
-        run(line)
-
-def run(code:str):
-    print(code)
-
+        l.runPrompt()
 
 if __name__ == "__main__":
     main()
