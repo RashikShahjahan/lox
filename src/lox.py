@@ -1,6 +1,7 @@
 import sys
+from scanner import Scanner
 
-class Lox():
+class Lox:
 
     def __init__(self) -> None:
         self.hadError = False
@@ -21,7 +22,12 @@ class Lox():
             self.hadError = False
 
     def run(self,code:str):
-        print(code)
+        scanner = Scanner(code)
+        tokens = scanner.scanTokens()
+
+        for token in tokens:
+            print(token)
+        
 
     def reportError(self,line:int, message:str):
         print(f"[line {line}] Error: {message}")
