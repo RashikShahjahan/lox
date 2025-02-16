@@ -37,12 +37,34 @@ class Scanner:
                     self.advance()
             else:
                 self.addToken('SLASH')
+        elif c == ' ' or c == '\t' or c== '\r':
+            pass
+        elif c == '\n':
+            self.line+=1
 
+        elif c == '"':
+            self.string()
 
         else: print(self.line, "Unexpected character.")
-        
+
+    def string(self):
+        while self.peek() != '"' and not self.isAtEnd():
+            if self.peek() == '\n':
+                self.line+=1
+            self.advance()
+
+        if self.isAtEnd():
+            print(self.line, "Unterminated string.")
+            return
+
+        self.advance()
+
+        value = self.code[self.start+1:self.curr-1]
+        self.addToken('STRING', value)
+
     def isAtEnd(self)->bool:
         return self.curr >= len(self.code)
+    
     
     def advance(self)->str:
         c = self.code[self.curr]
