@@ -7,7 +7,7 @@ class Scanner:
         self.curr = 0
         self.line = 1
 
-    def scanTokens(self) -> None:
+    def scanTokens(self) -> list[Token]:
         while not self.isAtEnd():
             self.start = self.curr
             self.scanToken()
@@ -27,6 +27,12 @@ class Scanner:
         elif c == '+': self.addToken('PLUS', c)
         elif c == ';': self.addToken('SEMICOLON', c)
         elif c == '*': self.addToken('STAR', c)
+        elif c == '!': self.addToken('BANG_EQUAL' if self.match('=') else 'BANG', c)
+        elif c == '=': self.addToken('EQUAL_EQUAL' if self.match('=') else 'EQUAL', c)
+        elif c == '<': self.addToken('LESS_EQUAL' if self.match('=') else 'LESS', c)
+        elif c == '>': self.addToken('GREATER_EQUAL' if self.match('=') else 'GREATER', c)
+
+
         else: print(self.line, "Unexpected character.")
         
     def isAtEnd(self)->bool:
@@ -38,6 +44,13 @@ class Scanner:
         return c
 
     def addToken(self,type:str,literal:str):
-        text = self.code[self.start:self.curr+1]
+        text = self.code[self.start:self.curr]
         curr_token = Token(type,text,literal, self.line)
         self.tokens.append(curr_token)
+
+    def match(self,expected:str)->bool:
+        if self.isAtEnd() or self.code[self.curr] != expected:
+            return False
+        
+        self.curr+=1
+        return True
