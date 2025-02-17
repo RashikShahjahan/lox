@@ -1,4 +1,4 @@
-from token import Token
+from tokenizer import Token
 class Scanner:
     def __init__(self, code) -> None:
         self.code = code

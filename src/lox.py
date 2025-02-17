@@ -1,5 +1,6 @@
 import sys
 from scanner import Scanner
+from parser import Parser
 
 class Lox:
 
@@ -24,9 +25,13 @@ class Lox:
     def run(self,code:str):
         scanner = Scanner(code)
         tokens = scanner.scanTokens()
+        print(tokens)
+        p = Parser(tokens)
 
-        for token in tokens:
-            print(token)
+        expression = p.parse()
+        print(expression)
+
+
         
 
     def reportError(self,line:int, message:str):
