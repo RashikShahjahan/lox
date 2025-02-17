@@ -1,5 +1,5 @@
 from abc import ABC
-from token import Token
+from tokenizer import Token
 
 class Expr(ABC):
     pass
@@ -36,12 +36,3 @@ class Unary(Expr):
         return f"({self.operator.lexeme} {self.right})"
 
 
-expression = Binary(
-        Unary(
-            Token('MINUS', "-", None, 1),
-            Literal(123)),
-        Token('STAR', "*", None, 1),
-        Grouping(
-            Literal(45.67)));
-
-print(expression)
